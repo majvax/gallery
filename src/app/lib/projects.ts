@@ -16,4 +16,11 @@ export const projects: Project[] = [
     date: "2025-06-23",
     tags: ["animation"]
   },
+  {
+    id: "galaxy",
+    title: "Galaxy",
+    description: "A mesmerizing galaxy animation made with webgl",
+    date: "2025-06-23",
+    tags: ["webgl", "animation"]
+  }
 ];
