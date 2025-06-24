@@ -4,6 +4,7 @@ export interface Project {
   description: string;
   date: string;
   tags?: string[];
+  previewScript?: string;
 }
 
 // This would ideally be generated automatically, but for simplicity,
@@ -21,6 +22,10 @@ export const projects: Project[] = [
     title: "Galaxy",
     description: "A mesmerizing galaxy animation made with webgl",
     date: "2025-06-23",
-    tags: ["webgl", "animation"]
+    tags: ["webgl", "animation"],
+    previewScript: `
+      for (const el of document.getElementsByTagName('h1')) { el.style.display = 'none'; }
+      for (const el of document.getElementsByTagName('p')) { el.style.display = 'none'; }
+    `
   }
 ];

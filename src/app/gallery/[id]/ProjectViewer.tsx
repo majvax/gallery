@@ -1,9 +1,9 @@
 'use client';
 
-import { useState } from 'react';
+import { useRef } from 'react';
+
 
 export default function ProjectViewer({ projectId }: { projectId: string }) {
-  const [isFullscreen, setIsFullscreen] = useState(false);
   const projectUrl = `/projects/${projectId}/index.html`;
 
 

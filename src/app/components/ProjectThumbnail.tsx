@@ -1,11 +1,30 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import Link from 'next/link';
 import { Project } from '@/app/lib/projects';
 
 export default function ProjectThumbnail({ project }: { project: Project }) {
+  const iframeRef = useRef<HTMLIFrameElement>(null);
   const [isLoading, setIsLoading] = useState(true);
+
+
+  const injectScript = () => {
+    const iframe = iframeRef.current;
+    if (!iframe || !project.previewScript) return;
+    try {
+      const doc = iframe.contentDocument || iframe.contentWindow?.document;
+      if (!doc) return;
+      const script = doc.createElement('script');
+      script.type = 'text/javascript';
+      script.text = project.previewScript;
+      doc.head.appendChild(script);
+      console.log('Preview script injected successfully');
+    } catch (e) {
+      console.error('Failed to inject preview script:', e);
+    }
+  };
+
 
   return (
     <Link
@@ -26,13 +45,14 @@ export default function ProjectThumbnail({ project }: { project: Project }) {
           )}
           
           <iframe
+            ref={iframeRef}
             src={`/projects/${project.id}/index.html`}
             className={`absolute inset-0 w-full h-full pointer-events-none transition-opacity duration-300 ${isLoading ? 'opacity-0' : 'opacity-100'}`}
             frameBorder="0"
             title={`${project.title} preview`}
             sandbox="allow-scripts allow-same-origin"
             loading="lazy"
-            onLoad={() => setIsLoading(false)}
+            onLoad={() => {setIsLoading(false); injectScript()}}
             scrolling='no'
           />
           
